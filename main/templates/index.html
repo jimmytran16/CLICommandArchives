@@ -18,13 +18,17 @@
   </div>
 
   <section>
-    <h5>List Of Commands:</h5>
+    <h2>List Of Commands:</h2>
     <div>
       {% for command in commands %}
       <div style="padding:10px;border:1px solid black;">
         <div style="display: inline-block;">
-          <p>Description: {{ command['Description'] }}</p>
-          <p>Command: {{ command['Command'] }}</p>
+          <section><strong>Description:</strong>
+            <p>{{ command['Description'] }}
+          </section>
+          <section><strong>Command:</strong>
+            <p style="background-color: rgba(238, 210, 23, 0.41); padding:10px;">{{ command['Command'] }}</p>
+          </section>
         </div>
         <div style="display: inline-block;">
           <a href="/deleteCommand/{{ command['_id'] }}">
@@ -57,7 +61,7 @@
       document.execCommand('copy');
       document.body.removeChild(input);
       alert('Successfully copied ' + commandToCopy + ' to clipboard!')
-  }
+    }
   </script>
 </body>
 
