@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="{{ url_for('static',filename='css/styles.css') }}">
+  <title>Command Archive</title>
+</head>
+
+<body>
+  <div style="text-align:center;border:1px black solid;">
+    <h2>Enter your commands and save them!</h2>
+    <form action="/saveCommand" method="GET">
+      <input style="display: block;margin:0 auto;" name="description" placeholder="Enter Description" />
+      <input style="display:block;margin:0 auto;" name="command" placeholder="Enter Command" />
+      <button type="submit">Save Command!</button>
+    </form>
+  </div>
+
+  <section>
+    <h5>List Of Commands:</h5>
+    <div>
+      {% for command in commands %}
+      <div style="padding:10px;border:1px solid black;">
+        <div style="display: inline-block;">
+          <p>Description: {{ command['Description'] }}</p>
+          <p>Command: {{ command['Command'] }}</p>
+        </div>
+        <div style="display: inline-block;">
+          <a href="/deleteCommand/{{ command['_id'] }}">
+            <button type="button" style="color:red;">Delete command!</button>
+          </a>
+          <button class="copy-to-clipboard" value="{{ command['Command'] }}">Copy to clipboard</button>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </section>
+
+  <script>
+    // Get all of the buttons from the doc and add an event to listen to all the clicks
+    var buttons = document.getElementsByClassName('copy-to-clipboard');
+    var buttonArr = Array.prototype.slice.call(buttons)
+    for (var i = 0; i < buttonArr.length; i++) {
+      buttonArr[i].addEventListener('click', (e) => {
+        copyToClipboard(e.target.value)
+      })
+    }
+    // copy the command to the clipboard by creating an input element and
+    //   storing its value as the commandtoCopy, then using the .select() and document.executeCommand to copy it 
+    function copyToClipboard(commandToCopy) {
+      var input = document.createElement('input');
+      input.value = commandToCopy;
+      input.id = 'inputID';
+      document.body.appendChild(input);
+      input.select();
+      document.execCommand('copy');
+      document.body.removeChild(input);
+      alert('Successfully copied ' + commandToCopy + ' to clipboard!')
+  }
+  </script>
+</body>
+
+</html>
