@@ -6,7 +6,18 @@ from flask import render_template, request, redirect, url_for
 @app.route('/') 
 def home():
     commands = mongo.db.commands.find({})
+    print(commands)
     return render_template('index.html',commands=commands)
+    
+# route to search a particular command using keywords
+@app.route('/search')
+def search():
+    if not request.args.get('keyword') or 'keyword' not in request.args or not request.args:
+        return redirect(url_for('home'))
+    else:
+        keyword = request.args.get('keyword')
+        commands = mongo.db.commands.find({ '$or': [{'Description': {'$regex': keyword}}, {'Command': {'$regex': keyword}}] })
+        return render_template('index.html',commands=commands)
 
 # route to store the command 
 @app.route('/saveCommand')

@@ -3,6 +3,7 @@
 
 <head>
   <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="{{ url_for('static',filename='css/styles.css') }}">
   <title>Command Archive</title>
 </head>
@@ -11,11 +12,25 @@
   <div style="text-align:center;border:1px black solid;">
     <h2>Enter your commands and save them!</h2>
     <form action="/saveCommand" method="GET">
-      <input style="display: block;margin:0 auto;" name="description" placeholder="Enter Description" />
-      <input style="display:block;margin:0 auto;" name="command" placeholder="Enter Command" />
+      <input style="display: block;margin:0 auto;" name="description" placeholder="Enter Description" required />
+      <input style="display:block;margin:0 auto;" name="command" placeholder="Enter Command" required />
       <button type="submit">Save Command!</button>
     </form>
   </div>
+
+  <section>
+    <div style="text-align: center;">
+      <h2>Search Command:</h2>
+      <div style="padding:5px;" class="searchbar-container">
+        <form style="display:inline-flex;" method="GET" action="/search" >          
+          <input style="padding:5px 0px;" name="keyword" placeholder="Search for command..." />
+          <button type="submit">          
+            <img style="margin:0px 4px;padding:4px;" src="{{ url_for('static',filename='img/loupe.png') }}" />
+          </button>
+        </form>
+      </div>
+    </div>
+  </section>
 
   <section>
     <h2>List Of Commands:</h2>
@@ -32,7 +47,7 @@
         </div>
         <div style="display: inline-block;">
           <a href="/deleteCommand/{{ command['_id'] }}">
-            <button type="button" style="color:red;">Delete command!</button>
+            <button disabled type="button" style="color:red;">Delete command!</button>
           </a>
           <button class="copy-to-clipboard" value="{{ command['Command'] }}">Copy to clipboard</button>
         </div>
